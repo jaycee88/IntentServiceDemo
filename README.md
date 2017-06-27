@@ -5,3 +5,4 @@
 4. TaskStackBuilder
 5. LocalBroadcastManager(本地广播)
 6. AsyncTaskLoader
+7. WakefulBroadcastReceiver
