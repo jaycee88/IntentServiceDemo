@@ -1,11 +1,15 @@
 package com.jaycee88.intentservicedemo;
 
+import android.app.LoaderManager;
 import android.content.IntentFilter;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import com.jaycee88.intentservicedemo.loader.MyBackgroundLoader;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     private MyBackgroundTaskReceiver localReceiver;
 
@@ -22,11 +26,31 @@ public class MainActivity extends AppCompatActivity {
 
 //        MyBackgroundTaskIntentService.startIntentService(this);
         ForeService.startService(this);
+        initLoader();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(localReceiver);
+    }
+
+    public void initLoader() {
+        getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public Loader<String> onCreateLoader(int id, Bundle args) {
+        return new MyBackgroundLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String> loader, String data) {
+        String result = data;
+    }
+
+    @Override
+    public void onLoaderReset(Loader<String> loader) {
+
     }
 }
